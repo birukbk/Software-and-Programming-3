@@ -8,6 +8,7 @@ case class Machine(labels: Labels, prog: Vector[Instruction]) {
 
   // The program counter - start at zero
   var pc = 0
+  var start = 0;
 
   // The registers of the SML machine
   val regs: Registers = new Registers(NUMBER_OF_REGISTERS)
@@ -19,13 +20,14 @@ case class Machine(labels: Labels, prog: Vector[Instruction]) {
   // Execute the program in prog, beginning at instruction 0.
   // Precondition: the program and its labels have been store properly.
   def execute(): Unit = {
-    while (pc < prog.length) {
+    /*   while (pc < prog.length) {
       val ins = prog(pc)
       pc += 1
       ins execute this
     }
+  }*/
+    start.until(prog.length).foreach(x => prog(x) execute this)
   }
-//  start.until(prog.length).foreach(x => prog(x) execute this)
 }
 
 object Machine {

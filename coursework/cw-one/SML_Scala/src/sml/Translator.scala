@@ -35,7 +35,7 @@ class Translator(fileName: String) {
           case LIN =>
             program = program :+ LinInstruction(fields(0), fields(2).toInt, fields(3).toInt)
           /*case BNZ =>
-            program = program :+ BnzInstruction(fields(0), fields(2).toInt, fields(3).mkString())*/
+            program = program :+ BnzInstruction(fields(0), fields(2).toInt, fields(3))*/
           case x =>
             println(s"Unknown instruction $x")
         }

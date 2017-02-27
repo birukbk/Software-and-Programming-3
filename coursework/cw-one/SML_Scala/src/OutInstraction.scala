@@ -1,15 +1,17 @@
 package sml
 
-class OutInstruction(label: String, op: String, val result: Int)
+class OutInstruction(label: String, op: String, val register: Int)
   extends Instruction(label, op) {
+  var value = 0;
 
   override def execute(m: Machine) {
-    //val value1 = m.regs(result)
+   value =  m.regs(register)
+    println("Register " + register + " contains: " + value)
 
   }
 
   override def toString(): String = {
-    super.toString + " " + " prints " + result + " to the console"
+    super.toString + " " + " prints " + register + " to the console"
   }
 }
 
