@@ -1,11 +1,5 @@
 package sml;
 
-/**
- * This class is the superclass of the classes for machine instructions
- *
- * @author someone
- */
-
 public abstract class Instruction {
     protected String label;
     protected String opcode;

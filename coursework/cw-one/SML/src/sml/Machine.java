@@ -29,7 +29,8 @@ public class Machine {
         pc = 0;
     }
 
-    public Machine() {}
+    public Machine() {
+    }
 
     public static void main(String[] args) {
 
