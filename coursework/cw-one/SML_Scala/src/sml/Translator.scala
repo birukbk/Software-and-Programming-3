@@ -43,7 +43,7 @@ class Translator(fileName: String) {
           case x =>
             println(s"Unknown instruction $x")
         }*/
-        
+
         //call InstructionFactory
         val instructionFactory = new InstructionFactory()
         program = program :+ instructionFactory.createInstruction(fields)

@@ -2,6 +2,7 @@ package support
 
 import scala.io.Source
 import scala.reflect.runtime.universe._
+import scala.tools.reflect.ToolBox
 
 object TreeTraversals {
 
@@ -78,7 +79,7 @@ object TreeTraversals {
   }
 
   def getIfs(file: String): List[If] =
-    getIfs(asTree(file))
+  getIfs(asTree(file))
 
   def hasVarDef(tree: Tree): Boolean =
     getVars(tree).size != 0
@@ -116,8 +117,8 @@ object TreeTraversals {
 
   def hasLoops(tree: Tree): Boolean =
     hasWhileLoop(tree) &&
-      hasForEach(tree) &&
-      hasForComp(tree)
+    hasForEach(tree) &&
+    hasForComp(tree)
 
   def hasIfs(tree: Tree): Boolean =
     getIfs(tree).nonEmpty
@@ -127,9 +128,8 @@ object TreeTraversals {
 
   class MethodTraverser extends Traverser {
     var defdefs = List[DefDef]()
-
     override def traverse(tree: Tree): Unit = tree match {
-      case defdef@DefDef(_, _, _, _, _, rhs) =>
+      case defdef @ DefDef(_, _, _, _, _, rhs) =>
         defdefs = defdef :: defdefs
         super.traverse(tree)
       case _ => super.traverse(tree)
@@ -138,9 +138,8 @@ object TreeTraversals {
 
   class ValTraverser extends Traverser {
     var valdefs = List[ValDef]()
-
     override def traverse(tree: Tree): Unit = tree match {
-      case valdef@ValDef(mods, _, _, _) =>
+      case valdef @ ValDef(mods, _, _, _) =>
         if (!mods.hasFlag(Flag.PARAM))
           valdefs = valdef :: valdefs
         super.traverse(tree)
@@ -150,9 +149,8 @@ object TreeTraversals {
 
   class MethodCallTraverser extends Traverser {
     var calls = List[TermName]()
-
     override def traverse(tree: Tree): Unit = tree match {
-      case Select(obj, name@TermName(_)) =>
+      case Select(obj, name @ TermName(_)) =>
         calls = name :: calls
         super.traverse(tree)
       case LabelDef(name, _, _) =>
@@ -164,9 +162,8 @@ object TreeTraversals {
 
   class IfExprTraverser extends Traverser {
     var ifs = List[If]()
-
     override def traverse(tree: Tree): Unit = tree match {
-      case ife@If(c, ifb, elb) =>
+      case ife @ If(c, ifb, elb) =>
         ifs = ife :: ifs
         super.traverse(tree)
       case _ => super.traverse(tree)

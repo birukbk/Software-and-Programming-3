@@ -1,8 +1,8 @@
 package factory
 
-import bc.{ByteCodeFactory, ByteCodeParser}
-import vendor.ProgramParser
-import vm.{VirtualMachine, VirtualMachineParser}
+import bc.{ByteCodeFactory, ByteCodeParser, ImplByteCodeParser}
+import vendor.{ImplProgramParser, ProgramParser}
+import vm.{ImplVirtualMachine, ImplVirtualMachineParser, VirtualMachine, VirtualMachineParser}
 
 /**
   * The `VirtualMachineFactory` follows the *factory pattern*. It provides
@@ -10,18 +10,18 @@ import vm.{VirtualMachine, VirtualMachineParser}
   * implement each method such that it returns an object of the correct type.
   */
 object VirtualMachineFactory {
-  // TODO
-  def byteCodeFactory: ByteCodeFactory = ???
 
-  // TODO
-  def vendorParser: ProgramParser = ???
+  def byteCodeFactory: ByteCodeFactory = new ImplByteCodeFactory
 
-  // TODO
-  def byteCodeParser: ByteCodeParser = ???
 
-  // TODO
-  def virtualMachineParser: VirtualMachineParser = ???
+  def vendorParser: ProgramParser = new ImplProgramParser
 
-  // TODO
-  def virtualMachine: VirtualMachine = ???
+
+  def byteCodeParser: ByteCodeParser = new ImplByteCodeParser
+
+
+  def virtualMachineParser: VirtualMachineParser = new ImplVirtualMachineParser
+
+
+  def virtualMachine: VirtualMachine = new ImplVirtualMachine
 }

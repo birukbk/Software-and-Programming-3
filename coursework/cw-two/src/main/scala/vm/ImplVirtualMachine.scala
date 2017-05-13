@@ -1,30 +1,11 @@
 package vm
-
 import bc.ByteCode
 
 /**
-  * Represents an exception that can be thrown if a virtual machine
-  * encounters an *underflow*. Because the virtual machine that we
-  * are implementing is stack-based, an invalid program could try
-  * to `pop` two operands from its stack of only one operand.
-  *
-  * You should use this in your implementation of your virtual machine!
-  *
-  * @param msg an exception message
+  * Created by Aman Enghida and Biruk Gebreselassie on 13/05/2017.
   */
-class MachineUnderflowException(msg: String) extends Exception(msg)
-
-/**
-  * Represents a stack-based virtual machine.
-  *
-  * An implementation of a virtual machine is capable of executing
-  * a vector of [[bc.ByteCode]] values. This is where the command
-  * pattern comes into play! That is, we defer the execution of
-  * each bytecode until it is executed by the virtual machine.
-  *
-  * You will need to implement one of these!
-  */
-trait VirtualMachine {
+class ImplVirtualMachine extends VirtualMachine {
+  var stackL : Vector[Int] = Vector[Int]()
   /**
     * Executes a vector of bytecodes.
     *
@@ -35,7 +16,12 @@ trait VirtualMachine {
     * @param bc a vector of bytecodes
     * @return a new virtual machine
     */
-  def execute(bc: Vector[ByteCode]): VirtualMachine
+  override def execute(bc: Vector[ByteCode]): VirtualMachine = {
+    for (b <- bc){
+      this.executeOne(bc)
+    }
+      new ImplVirtualMachine
+  }
 
   /**
     * Executes the next bytecode in the vector of bytecodes.
@@ -49,7 +35,10 @@ trait VirtualMachine {
     * @param bc the vector of bytecodes
     * @return a tuple of a new vector of bytecodes and virtual machine
     */
-  def executeOne(bc: Vector[ByteCode]): (Vector[ByteCode], VirtualMachine)
+  override def executeOne(bc: Vector[ByteCode]): (Vector[ByteCode], VirtualMachine) = {
+    bc.head.execute(this)
+    (bc.tail, this)
+  }
 
   /**
     * Pushes an integer value onto the virtual machine stack.
@@ -57,7 +46,10 @@ trait VirtualMachine {
     * @param value the integer to push
     * @return a new virtual machine with the integer `value` pushed
     */
-  def push(value: Int): VirtualMachine
+  override def push(value: Int): VirtualMachine = {
+    stackL = value +: stackL
+    this
+  }
 
   /**
     * Pops an integer value off of the virtual machine stack.
@@ -65,7 +57,15 @@ trait VirtualMachine {
     * @return (i, vm), where i is the integer popped and vm is the
     *         new virtual machine
     */
-  def pop(): (Int, VirtualMachine)
+  override def pop(): (Int, VirtualMachine) = {
+    if (stackL.size == 0){
+      throw new MachineUnderflowException("Stack is Empty")
+    } else {
+      val headOfStack = stackL.head
+      stackL = stackL.tail
+      (headOfStack,this)
+    }
+  }
 
   /**
     * Returns the state of the virtual machine stack.
@@ -74,5 +74,5 @@ trait VirtualMachine {
     *
     * @return the state of the stack
     */
-  def state: Vector[Int]
+  override def state: Vector[Int] = stackL
 }
