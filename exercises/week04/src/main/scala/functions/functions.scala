@@ -68,8 +68,13 @@ object Funcs {
    * list and the cumulative value.
    * @return the final valued.
    */
-  def foldLeft[A, B](ls: List[A], z: B)(f: (B, A) => B): B = ???
-
+  def foldLeft[A, B](ls: List[A], z: B)(f: (B, A) => B): B = {
+    ls match {
+      case Nil => z
+      case h :: t if ls.size == 1 => f(z, h)
+      case h::t if (ls.size > 1) => foldLeft(t, f(z,h))(f)
+    }
+  }
   /**
     * Use your implementation of foldLeft to implement these functions:
     * - sum: Takes a List[Double] and produces the sum of all elements
