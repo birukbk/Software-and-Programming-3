@@ -126,7 +126,13 @@ object Funcs {
     * @param f  : A => Boolean the predicate
     * @return the filtered list.
     */
-  def filter[A](ls: List[A])(f: A => Boolean): List[A] = ???
+  def filter[A](ls: List[A])(f: A => Boolean): List[A] = {
+    ls match {
+      case Nil => throw new IllegalArgumentException("Cannot apply filter on empty list")
+      case h::t if f(h) => if (ls.length == 1) h::Nil else h::filter(t)(f)
+      case h::t if !f(h) => filter(t)(f)
+    }
+  }
 
   /**
     * flatMap is very similar to map. However, the function returns a List,
