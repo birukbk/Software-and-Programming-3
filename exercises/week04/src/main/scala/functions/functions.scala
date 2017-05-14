@@ -91,11 +91,11 @@ object Funcs {
 
   def product(ls: List[Double]): Double = foldLeft(ls, 1.0)(_*_)
 
-  def length[A](ls: List[A]): Int = ???
+  def length[A](ls: List[A]): Int = foldLeft(ls, 0)( (z , _) => (z + 1) )
 
-  def reverse[A](ls: List[A]): List[A] = ???
+  def reverse[A](ls: List[A]): List[A] = foldLeft(ls, List[A]() )( (z, a) => a :: z)
 
-  def flatten[A](ls: List[List[A]]): List[A] = ???
+  def flatten[A](ls: List[List[A]]): List[A] = foldLeft(ls, List[A]())( (z, a) => z ::: a )
 
   // MAP AND FILTER
 
